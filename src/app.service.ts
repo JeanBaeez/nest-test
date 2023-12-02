@@ -1,10 +1,7 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 @Injectable()
-export class AppService extends PrismaClient implements OnModuleInit {
-  async onModuleInit() {
-    await this.$connect();
-  }
+export class AppService extends PrismaClient {
   async getMovies() {
     const prisma = new PrismaClient();
     const data = await prisma.movies.findMany({
