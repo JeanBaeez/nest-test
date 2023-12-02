@@ -1,0 +1,291 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Athlete {
+  id                   String  @id
+  atheleteId           String?
+  displayName          String?
+  shortName            String?
+  headshot             String?
+  position             String?
+  positionName         String?
+  positionDisplayName  String?
+  PositionAbbreviation String?
+  jersey               String?
+  yearsPro             Int?
+  birthCity            String?
+  birthCountry         String?
+  birthState           String?
+  height               String?
+  teamId               String?
+  weight               String?
+  birthDate            String?
+  hand                 String?
+
+  @@index([id])
+}
+
+model Genre {
+  GenreId Int    @id @default(autoincrement())
+  id      Int
+  name    String
+
+  @@index([id])
+}
+
+model Like {
+  id        String   @id
+  createdAt DateTime @default(now())
+  postId    String
+  userId    String
+
+  @@index([id])
+}
+
+model Movie {
+  MovieId        Int     @id @default(autoincrement())
+  budget         Int?
+  homepage       String?
+  original_title String
+  overview       String  @db.LongText
+  popularity     Float
+  release_date   String
+  status         String
+  title          String
+  vote_count     Int
+
+  @@index([MovieId])
+}
+
+model MovieDiscover {
+  MovieDiscoverId Int @id @default(autoincrement())
+  page            Int
+  total_pages     Int
+  total_results   Int
+}
+
+model Movies {
+  MovieId       Int     @id @default(autoincrement())
+  id            Int     @unique
+  title         String
+  poster_path   String?
+  backdrop_path String?
+  release_date  String?
+  overview      String  @db.LongText
+
+  @@index([MovieId])
+}
+
+model NBATeams {
+  IId              String  @id
+  abreviation      String
+  alternateColor   String
+  color            String
+  displayName      String
+  id               String
+  isActive         Boolean
+  isAllStar        Boolean
+  location         String
+  name             String
+  nickname         String
+  shortDisplayName String
+  slug             String
+  uid              String
+  logos            String
+}
+
+model Post {
+  id         String   @id
+  content    String   @db.Text
+  createdAt  DateTime @default(now())
+  userUserId String
+
+  @@index([id])
+}
+
+model Projects {
+  id          String   @id
+  name        String
+  description String
+  url         String
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  tags        String
+  status      String
+  key         String
+}
+
+model Result {
+  ResultId          Int     @id @default(autoincrement())
+  adult             Boolean
+  backdrop_path     String?
+  genre_ids         Int
+  id                Int
+  original_language String
+  original_title    String
+  overview          String
+  popularity        Float
+  poster_path       String
+  release_date      String
+  title             String
+  video             Boolean
+  vote_average      Float
+  vote_count        Int
+
+  @@index([ResultId])
+}
+
+model Roster {
+  id           String @id
+  teamId       String
+  displayName  String
+  abbreviation String
+  location     String
+  name         String
+  slug         String
+  uid          String
+
+  @@index([id])
+}
+
+model User {
+  id                String    @unique
+  userId            String    @id
+  username          String
+  image_url         String    @db.LongText
+  last_name         String?
+  created_at        DateTime
+  first_name        String
+  updated_at        DateTime
+  email_address     String
+  last_sign_in_at   DateTime?
+  password_enabled  Boolean   @default(false)
+  profile_image_url String
+
+  @@index([id])
+}
+
+model budgetsTocategories {
+  A String
+  B Int
+
+  @@unique([A, B], map: "_budgetsTocategories_AB_unique")
+  @@index([B], map: "_budgetsTocategories_B_index")
+  @@map("_budgetsTocategories")
+}
+
+model budgetme_post {
+  id         BigInt    @id @default(autoincrement())
+  name       String?   @db.VarChar(256)
+  created_at DateTime  @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @db.Timestamp(0)
+
+  @@index([name], map: "name_idx")
+}
+
+model budgets {
+  id        String   @id
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  month     String?
+}
+
+model categories {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+model followers {
+  follower_id  Int
+  following_id Int
+
+  @@id([follower_id, following_id])
+}
+
+model messages {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([id])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model s {
+  Column1          Int
+  pokedex_number   Int
+  name             String @db.VarChar(64)
+  german_name      String @db.VarChar(16)
+  japanese_name    String @db.VarChar(32)
+  generation       Int
+  is_sub_legendary Int
+  is_legendary     Int
+  is_mythical      Int
+  species          String @db.VarChar(32)
+  type_number      Int
+  type_1           String @db.VarChar(8)
+  type_2           String @db.VarChar(8)
+  height_m         String @db.VarChar(8)
+  weight_kg        String @db.VarChar(8)
+  abilities_number Int
+  ability_1        String @db.VarChar(16)
+  ability_2        String @db.VarChar(16)
+  ability_hidden   String @db.VarChar(16)
+  total_points     String @db.VarChar(8)
+  hp               String @db.VarChar(4)
+  attack           String @db.VarChar(4)
+  defense          String @db.VarChar(8)
+  sp_attack        String @db.VarChar(8)
+  sp_defense       String @db.VarChar(8)
+  speed            String @db.VarChar(4)
+  catch_rate       String @db.VarChar(8)
+  base_friendship  String @db.VarChar(4)
+  base_experience  String @db.VarChar(8)
+  growth_rate      String @db.VarChar(16)
+  egg_type_number  Int
+  egg_type_1       String @db.VarChar(16)
+  egg_type_2       String @db.VarChar(16)
+  percentage_male  String @db.VarChar(8)
+  egg_cycles       String @db.VarChar(4)
+  against_normal   String @db.VarChar(4)
+  against_fire     String @db.VarChar(4)
+  against_water    String @db.VarChar(4)
+  against_electric String @db.VarChar(4)
+  against_grass    String @db.VarChar(4)
+  against_ice      String @db.VarChar(8)
+  against_fight    String @db.VarChar(4)
+  against_poison   String @db.VarChar(4)
+  against_ground   String @db.VarChar(4)
+  against_flying   String @db.VarChar(4)
+  against_psychic  String @db.VarChar(4)
+  against_bug      String @db.VarChar(4)
+  against_rock     String @db.VarChar(4)
+  against_ghost    String @db.VarChar(4)
+  against_dragon   String @db.VarChar(4)
+  against_dark     String @db.VarChar(4)
+  against_steel    String @db.VarChar(4)
+  against_fairy    String @db.VarChar(4)
+
+  @@ignore
+}
+
+model track {
+  trackId Int    @id @default(autoincrement())
+  id      Int
+  name    String
+  info    Bytes  @db.Binary(100)
+
+  @@index([id])
+}
