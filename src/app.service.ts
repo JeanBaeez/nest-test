@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaService } from './prisma/prisma.service';
+
 @Injectable()
-export class AppService extends PrismaClient {
+export class AppService {
+  constructor(private prisma: PrismaService) {}
   async getMovies() {
-    const prisma = new PrismaClient();
-    const data = await prisma.movies.findMany({
+    const data = await this.prisma.movies.findMany({
       take: 1000,
     });
     return await data;
